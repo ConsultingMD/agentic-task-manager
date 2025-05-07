@@ -30,7 +30,7 @@ function getClient(apiKey, baseURL) {
 	// TODO: Explore passing options like default headers if needed
 	// Use the provided baseURL or fall back to the default
 	const actualBaseURL = baseURL || 'https://api.anthropic.com/v1';
-	
+
 	// Create and return a new instance directly with standard version header
 	return createAnthropic({
 		apiKey: apiKey,
@@ -70,8 +70,8 @@ export async function generateAnthropicText({
 	try {
 		// Use provided baseURL or try to get from config
 		const config = getConfig();
-		const anthropicBaseUrl = baseURL || (config?.global?.anthropicBaseUrl);
-		
+		const anthropicBaseUrl = baseURL || config?.global?.anthropicBaseUrl;
+
 		const client = getClient(apiKey, anthropicBaseUrl);
 		const result = await generateText({
 			model: client(modelId),
@@ -117,8 +117,8 @@ export async function streamAnthropicText({
 	try {
 		// Use provided baseURL or try to get from config
 		const config = getConfig();
-		const anthropicBaseUrl = baseURL || (config?.global?.anthropicBaseUrl);
-		
+		const anthropicBaseUrl = baseURL || config?.global?.anthropicBaseUrl;
+
 		const client = getClient(apiKey, anthropicBaseUrl);
 
 		// --- DEBUG LOGGING --- >>
@@ -196,8 +196,8 @@ export async function generateAnthropicObject({
 	try {
 		// Use provided baseURL or try to get from config
 		const config = getConfig();
-		const anthropicBaseUrl = baseURL || (config?.global?.anthropicBaseUrl);
-		
+		const anthropicBaseUrl = baseURL || config?.global?.anthropicBaseUrl;
+
 		const client = getClient(apiKey, anthropicBaseUrl);
 
 		// Log basic debug info
@@ -232,6 +232,7 @@ export async function generateAnthropicObject({
 			`Anthropic generateObject ('${objectName}') failed: ${error.message}`
 		);
 		throw error;
+		// Consider more specific error handling or re-throwing a standardized error
 	}
 }
 

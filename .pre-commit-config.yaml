@@ -1,0 +1,34 @@
+repos:
+  - hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+    repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+  - hooks:
+      - id: go-lint
+      - id: golines
+      - id: terraform-fmt
+    repo: git@github.com:ConsultingMD/image-builder.git
+    rev: v2.2.3
+  - hooks:
+      - id: prettier
+        types_or:
+          - javascript
+          - jsx
+          - json
+          - ts
+          - tsx
+          - css
+          - scss
+          - less
+          - html
+          - json
+          - graphql
+          - markdown
+    repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+  - hooks:
+      - id: gitleaks
+    repo: https://github.com/gitleaks/gitleaks
+    rev: v8.19.2
