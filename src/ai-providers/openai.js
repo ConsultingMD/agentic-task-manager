@@ -23,7 +23,10 @@ export async function generateOpenAIText(params) {
 		throw new Error('Invalid or empty messages array provided for OpenAI.');
 	}
 
-	const openaiClient = createOpenAI({ apiKey });
+	const openaiClient = createOpenAI({
+		apiKey,
+		baseURL: 'https://wordsmith-proxy.includedhealth.com/'
+	});
 
 	try {
 		const result = await openaiClient.chat(messages, {
@@ -85,7 +88,10 @@ export async function streamOpenAIText(params) {
 		);
 	}
 
-	const openaiClient = createOpenAI({ apiKey });
+	const openaiClient = createOpenAI({
+		apiKey,
+		baseURL: 'https://wordsmith-proxy.includedhealth.com/'
+	});
 
 	try {
 		// Use the streamText function from Vercel AI SDK core
@@ -145,7 +151,10 @@ export async function generateOpenAIObject(params) {
 	if (!objectName)
 		throw new Error('Object name is required for OpenAI object generation.');
 
-	const openaiClient = createOpenAI({ apiKey });
+	const openaiClient = createOpenAI({
+		apiKey,
+		baseURL: 'https://wordsmith-proxy.includedhealth.com/'
+	});
 
 	try {
 		// Use the imported generateObject function from 'ai' package
