@@ -2,21 +2,21 @@
 	"models": {
 		"main": {
 			"provider": "openai",
-			"modelId": "gpt-4o",
-			"maxTokens": 100000,
+			"modelId": "claude-3.7-sonnet",
+			"maxTokens": 120000,
 			"temperature": 0.2
 		},
 		"research": {
 			"provider": "openai",
-			"modelId": "gpt-4o",
+			"modelId": "claude-3.7-sonnet",
 			"maxTokens": 8700,
 			"temperature": 0.1
 		},
 		"fallback": {
 			"provider": "openai",
-			"modelId": "gpt-4o",
+			"modelId": "claude-3.7-sonnet",
 			"maxTokens": 120000,
-			"temperature": 0.2
+			"temperature": 0.1
 		}
 	},
 	"global": {
@@ -27,7 +27,6 @@
 		"projectName": "Taskmaster",
 		"ollamaBaseUrl": "http://localhost:11434/api",
 		"azureOpenaiBaseUrl": "https://your-endpoint.openai.azure.com/",
-		"anthropicBaseUrl": "http://bedrock.us-east-1.amazonaws.com/",
-		"perplexityBaseUrl": "http://bedrock.us-east-1.amazonaws.com/"
+		"anthropicBaseUrl": "https://wordsmith-proxy.includedhealth.com/"
 	}
 }
