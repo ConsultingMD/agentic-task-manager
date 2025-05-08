@@ -184,22 +184,48 @@ function copyTemplateFile(templateName, targetPath, replacements = {}) {
 		// 	sourcePath = path.join(__dirname, '..', 'assets', 'scripts_README.md');
 		// 	break;
 		case 'dev_workflow.mdc':
-			sourcePath = path.join(
+			// Check if GitHub Copilot version exists and use it, otherwise fall back to standard
+			const copilotDevWorkflowPath = path.join(
 				__dirname,
 				'..',
-				'.cursor',
-				'rules',
+				'assets',
+				'github-copilot',
 				'dev_workflow.mdc'
 			);
+
+			if (fs.existsSync(copilotDevWorkflowPath)) {
+				sourcePath = copilotDevWorkflowPath;
+			} else {
+				sourcePath = path.join(
+					__dirname,
+					'..',
+					'.cursor',
+					'rules',
+					'dev_workflow.mdc'
+				);
+			}
 			break;
 		case 'taskmaster.mdc':
-			sourcePath = path.join(
+			// Check if GitHub Copilot version exists and use it, otherwise fall back to standard
+			const copilotTaskmasterPath = path.join(
 				__dirname,
 				'..',
-				'.cursor',
-				'rules',
+				'assets',
+				'github-copilot',
 				'taskmaster.mdc'
 			);
+
+			if (fs.existsSync(copilotTaskmasterPath)) {
+				sourcePath = copilotTaskmasterPath;
+			} else {
+				sourcePath = path.join(
+					__dirname,
+					'..',
+					'.cursor',
+					'rules',
+					'taskmaster.mdc'
+				);
+			}
 			break;
 		case 'cursor_rules.mdc':
 			sourcePath = path.join(
@@ -211,13 +237,26 @@ function copyTemplateFile(templateName, targetPath, replacements = {}) {
 			);
 			break;
 		case 'self_improve.mdc':
-			sourcePath = path.join(
+			// Check if GitHub Copilot version exists and use it, otherwise fall back to standard
+			const copilotSelfImprovePath = path.join(
 				__dirname,
 				'..',
-				'.cursor',
-				'rules',
+				'assets',
+				'github-copilot',
 				'self_improve.mdc'
 			);
+
+			if (fs.existsSync(copilotSelfImprovePath)) {
+				sourcePath = copilotSelfImprovePath;
+			} else {
+				sourcePath = path.join(
+					__dirname,
+					'..',
+					'.cursor',
+					'rules',
+					'self_improve.mdc'
+				);
+			}
 			break;
 			// case 'README-task-master.md':
 			// 	sourcePath = path.join(__dirname, '..', 'README-task-master.md');
@@ -245,6 +284,26 @@ function copyTemplateFile(templateName, targetPath, replacements = {}) {
 				`rules-${mode}`,
 				templateName
 			);
+			break;
+		case 'copilot-instructions.md':
+		case 'dev_workflow.mdc':
+		case 'taskmaster.mdc':
+		case 'self_improve.mdc':
+			// GitHub Copilot files
+			const copilotPath = path.join(
+				__dirname,
+				'..',
+				'assets',
+				'github-copilot',
+				templateName
+			);
+
+			if (fs.existsSync(copilotPath)) {
+				sourcePath = copilotPath;
+			} else {
+				// Fall back to standard assets if file doesn't exist in github-copilot
+				sourcePath = path.join(__dirname, '..', 'assets', templateName);
+			}
 			break;
 		default:
 			// For other files like env.example, gitignore, etc. that don't have direct equivalents
@@ -486,6 +545,9 @@ function createProjectStructure(addAliases, dryRun) {
 		ensureDirectoryExists(path.join(targetDir, '.roo', `rules-${mode}`));
 	}
 
+	// Create GitHub Copilot directory
+	ensureDirectoryExists(path.join(targetDir, '.github'));
+
 	ensureDirectoryExists(path.join(targetDir, 'scripts'));
 	ensureDirectoryExists(path.join(targetDir, 'tasks'));
 
@@ -564,6 +626,19 @@ function createProjectStructure(addAliases, dryRun) {
 		'example_prd.txt',
 		path.join(targetDir, 'scripts', 'example_prd.txt')
 	);
+
+	// Copy GitHub Copilot files
+	log('info', 'Copying GitHub Copilot configuration files...');
+	const copilotFiles = [
+		'copilot-instructions.md',
+		'dev_workflow.mdc',
+		'taskmaster.mdc',
+		'self_improve.mdc'
+	];
+
+	for (const file of copilotFiles) {
+		copyTemplateFile(file, path.join(targetDir, '.github', file));
+	}
 
 	// // Create main README.md
 	// copyTemplateFile(
